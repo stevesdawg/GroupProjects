@@ -12,16 +12,21 @@ public class ClientThread extends Thread {
 	
 	private Socket s;
 	private boolean open;
+	private OutputStream out;
+	private InputStream in;
 	
-	public ClientThread(Socket socket)
+	public ClientThread(Socket socket) throws IOException
 	{
 		this.s = socket;
 		open = true;
+		in = s.getInputStream();
+		out = s.getOutputStream();
 	}
 	
 	public void start()
 	{
 		Scanner keyboard = new Scanner(System.in);
+		System.out.println("Type a message. Type CLOSE to exit.");		
 		while(open)
 		{
 			try {
@@ -30,7 +35,6 @@ public class ClientThread extends Thread {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			
 			System.out.println("Type a message. Type CLOSE to exit.");
 			String command = keyboard.next();
 			
@@ -60,7 +64,6 @@ public class ClientThread extends Thread {
 	
 	public void sendMessage(String message) throws IOException
 	{
-		OutputStream out = s.getOutputStream();
 		PrintWriter outWriter = new PrintWriter(out);
 		
 		outWriter.println(message);
@@ -69,7 +72,6 @@ public class ClientThread extends Thread {
 	
 	public String getIncomingMessages() throws IOException
 	{
-		InputStream in = s.getInputStream();
 		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 		
 		String line = "";

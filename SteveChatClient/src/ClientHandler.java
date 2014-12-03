@@ -12,6 +12,7 @@ public class ClientHandler extends Thread {
 	
 	private Socket s;
 	private OutputStream out;
+	private InputStream in;
 	private ArrayBlockingQueue<OutputStream> outStreams;
 	private boolean open;
 	
@@ -19,6 +20,7 @@ public class ClientHandler extends Thread {
 	{
 		this.s = socket;
 		this.out = s.getOutputStream();
+		this.in = s.getInputStream();
 		this.outStreams = outs;
 		outStreams.put(out);
 	}
