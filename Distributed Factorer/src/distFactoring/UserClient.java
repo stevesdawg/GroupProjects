@@ -86,16 +86,12 @@ public class UserClient extends Thread {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
 				Random rand1 = new Random();
 				Random rand2 = new Random();
-
 				BigInteger p1 = new BigInteger(NUMBER_SIZE, 1000000000, rand1);
 				BigInteger p2 = new BigInteger(NUMBER_SIZE, 1000000000, rand2);
-				
 				product= p1.multiply(p2);
 				numbers.setText("Number to Factor: " + product.toString());
-				
 				sendNumber.setEnabled(true);
 			}
 		});
@@ -107,7 +103,6 @@ public class UserClient extends Thread {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
 				numbers.setText("Factoring...");
 				OutputStream out = null;
 				try {
@@ -116,10 +111,8 @@ public class UserClient extends Thread {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				
 				PrintWriter outWriter = new PrintWriter(out);
 				outWriter.println("FACTOR: product.toString()");
-				
 				sendNumber.setEnabled(false);
 			}
 		});
@@ -128,10 +121,8 @@ public class UserClient extends Thread {
 	public String getIncomingMessages(InputStream in) throws IOException
 	{
 		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-		
 		String line = "";
 		String incoming = "";
-		
 		while((line = reader.readLine()) != null)
 			incoming += line;
 		
