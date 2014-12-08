@@ -26,7 +26,7 @@ public class UserClient extends Thread {
 	private Socket s;
 	private BigInteger product;
 	
-	private JFrame mainFrame;
+	private JFrame theFrame;
 	private JButton generateNumber;
 	private JButton sendNumber;
 	private JLabel numbers; 
@@ -65,8 +65,8 @@ public class UserClient extends Thread {
 	
 	public void setupGui()
 	{
-		mainFrame = new JFrame();
-		mainFrame.setSize(WIDTH, HEIGHT);
+		theFrame = new JFrame();
+		theFrame.setSize(WIDTH, HEIGHT);
 		generateNumber = new JButton("Generate Large Product of Primes");
 		sendNumber = new JButton("Begin Factoring");
 		numbers = new JLabel();
@@ -74,9 +74,9 @@ public class UserClient extends Thread {
 		setGenerateListener();
 		setSendingListener();
 		
-		mainFrame.add(generateNumber);
-		mainFrame.add(sendNumber);
-		mainFrame.add(numbers);
+		theFrame.add(generateNumber);
+		theFrame.add(sendNumber);
+		theFrame.add(numbers);
 	}
 	
 	public void setGenerateListener()
