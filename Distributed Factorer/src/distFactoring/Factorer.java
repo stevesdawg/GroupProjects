@@ -1,14 +1,23 @@
 package distFactoring;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.math.BigInteger;
 import java.net.Socket;
 import java.util.ArrayList;
 
 public class Factorer implements Runnable
 {
-	BigInteger end;
-	BigInteger number;
-	BigInteger start;
+	private BigInteger end;
+	private BigInteger number;
+	private BigInteger start;
+	
+	private Socket socket;
+	private boolean started;
+	
 	private final BigInteger TWO = new BigInteger("2");
 
 	public Factorer(Socket s, BigInteger num, BigInteger start, BigInteger end)
@@ -20,11 +29,36 @@ public class Factorer implements Runnable
 		{
 			start = start.subtract(BigInteger.ONE);
 		}
-		System.out.println(start);
-		System.out.println(end);
+		
+		this.socket = s;
+		started = false;
+	}
+	
+	public Socket getSocket()
+	{
+		return socket;
+	}
+	
+	public String getIncomingMessages() throws IOException
+	{
+		InputStream in = socket.getInputStream();
+		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+		
+		String line = "";
+		String incoming = "";
+		
+		while((line = reader.readLine()) != null)
+			incoming += line;
+		
+		return incoming;
 	}
 
 	public void run() 
+	{
+		
+	}
+	
+	public void factor()
 	{
 		ArrayList<BigInteger> factors = new ArrayList<BigInteger>();
 

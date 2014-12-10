@@ -12,11 +12,9 @@ import java.math.BigInteger;
 import java.net.Socket;
 import java.util.Random;
 
-import javax.annotation.Generated;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
 
 public class UserClient extends Thread {
 	
