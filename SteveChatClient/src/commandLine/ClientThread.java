@@ -1,3 +1,4 @@
+package commandLine;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -6,6 +7,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
+import java.util.concurrent.ArrayBlockingQueue;
 
 
 public class ClientThread extends Thread {
@@ -15,12 +17,17 @@ public class ClientThread extends Thread {
 	private OutputStream out;
 	private InputStream in;
 	
-	public ClientThread(Socket socket) throws IOException
+	private ArrayBlockingQueue<String> outQueue;
+	private ArrayBlockingQueue<String> inQueue;
+	
+	public ClientThread(Socket socket, ArrayBlockingQueue<String> out, ArrayBlockingQueue<String> in) throws IOException
 	{
 		this.s = socket;
 		open = true;
-		in = s.getInputStream();
-		out = s.getOutputStream();
+		this.in = s.getInputStream();
+		this.out = s.getOutputStream();
+		outQueue = out;
+		inQueue = in;
 	}
 	
 	public void start()
@@ -30,14 +37,21 @@ public class ClientThread extends Thread {
 		while(open)
 		{
 			try {
-				System.out.println(this.getIncomingMessages());
-			} catch (IOException e1) {
+				String message = this.getIncomingMessages();
+				System.out.println(message);
+				inQueue.put(message);
+			} catch (IOException | InterruptedException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			System.out.println("Type a message. Type CLOSE to exit.");
-			String command = keyboard.next();
 			
+			String command = "";
+			try {
+				command = outQueue.take();
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			switch (command) {
 			case "CLOSE":
 				try {
@@ -75,12 +89,10 @@ public class ClientThread extends Thread {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 		
 		String line = "";
-		String incomingMessages = "";
 		
-		while((line = reader.readLine()) != null)
-			incomingMessages += line;
-		
-		return incomingMessages;
+		if((line = reader.readLine()) != null)
+			return line;
+		return "";
 	}
 	
 	public void close() throws IOException

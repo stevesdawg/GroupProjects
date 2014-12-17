@@ -1,3 +1,4 @@
+package commandLine;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,7 +34,6 @@ public class ClientHandler extends Thread {
 			try {
 				inCommands = this.getIncomingMessages();
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			
@@ -42,7 +42,6 @@ public class ClientHandler extends Thread {
 				try {
 					this.close();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				break;
@@ -51,7 +50,6 @@ public class ClientHandler extends Thread {
 				try {
 					this.sendMessageToClients(inCommands);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				break;
