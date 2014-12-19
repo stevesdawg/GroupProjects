@@ -1,3 +1,4 @@
+package commandLine;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -12,12 +13,11 @@ public class ClientRunner {
 		Socket socket = null;
 		try {
 			socket = new Socket(HOSTNAME, PORT);
-			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		ClientThread client = new ClientThread(socket);
+		ClientThread client = new ClientThread(socket, null, null);
 		System.out.println(socket.getLocalPort());
 		
 		client.start();
