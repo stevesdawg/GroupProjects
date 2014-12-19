@@ -27,11 +27,18 @@ public class ClientHandler extends Thread {
 	
 	public void start()
 	{
+		System.out.println("Client has been connected to this server.");
+		PrintWriter writer = new PrintWriter(out);
+		writer.println("Connected");
+		writer.flush();
+//		w.close();
+		
 		while(open)
 		{
 			String inCommands = "";
 			try {
 				inCommands = this.getIncomingMessages();
+				System.out.println(inCommands);
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -49,6 +56,7 @@ public class ClientHandler extends Thread {
 
 			default:
 				try {
+					System.out.println(inCommands);
 					this.sendMessageToClients(inCommands);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -65,16 +73,16 @@ public class ClientHandler extends Thread {
 		{
 			if(outStream != out)
 			{
-				PrintWriter outWriter = new PrintWriter(outStream);
-				outWriter.println(message);
-				outWriter.flush();
+				PrintWriter writer = new PrintWriter(out);
+				writer.println(message);
+				writer.flush();
+				System.out.println(message);
 			}
 		}
 	}
 	
 	public String getIncomingMessages() throws IOException
 	{
-		InputStream in = s.getInputStream();
 		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 		
 		String line = "";

@@ -18,7 +18,8 @@ public class Server {
 		{
 			while(true)
 			{
-				new ClientHandler(server.accept(), outStreams).start();
+				ClientHandler handler = new ClientHandler(server.accept(), outStreams);
+				handler.start();
 			}
 		}
 		finally
