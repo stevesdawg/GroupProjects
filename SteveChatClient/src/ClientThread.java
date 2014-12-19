@@ -72,13 +72,15 @@ public class ClientThread extends Thread {
 	
 	public String getIncomingMessages() throws IOException
 	{
-		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+		Scanner reader = new Scanner(new InputStreamReader(in));
 		
-		String line = "";
+		//String line = "";
 		String incomingMessages = "";
 		
-		while((line = reader.readLine()) != null)
-			incomingMessages += line;
+		while(reader.hasNext()){
+			
+			incomingMessages += reader.next();
+		}
 		
 		return incomingMessages;
 	}

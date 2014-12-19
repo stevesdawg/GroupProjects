@@ -12,6 +12,7 @@ public class ClientRunner {
 		Socket socket = null;
 		try {
 			socket = new Socket(HOSTNAME, PORT);
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
