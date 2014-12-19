@@ -59,7 +59,7 @@ public class Server implements Runnable{
 		
 		else
 		{
-			FactorerHandler.add(new Factorer(sock.accept()));
+			FactorerHandler.add(new Factorer(sock.accept(), null, null, null));
 		}
 	}
 	

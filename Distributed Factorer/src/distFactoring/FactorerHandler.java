@@ -1,5 +1,6 @@
 package distFactoring;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -12,7 +13,13 @@ public class FactorerHandler implements Runnable{
 	public void run(){
 		while(true){
 			for(Factorer f: factorers){
-				Scanner scan=new Scanner(f.getSocket().getInputStream());
+				Scanner scan = null;
+				try {
+					scan = new Scanner(f.getSocket().getInputStream());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
 				while(scan.hasNext()){
 					Server.found(scan.nextBigInteger());
@@ -22,8 +29,14 @@ public class FactorerHandler implements Runnable{
 			}
 			
 			if(done){
-				for(Factor fe: factorers){
-					PrintWriter out=new PrintWriter(fe.getSocket().getOutPutStream());
+				for(Factorer fe: factorers){
+					PrintWriter out = null;
+					try {
+						out = new PrintWriter(fe.getSocket().getOutputStream());
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					out.println("DONE");
 				}
 			}
@@ -39,9 +52,9 @@ public class FactorerHandler implements Runnable{
 		done=true;
 	}
 	
-	public static void pushIntegerToFactor(BigInteger big){
+	public static void pushIntegerToFactor(BigInteger big) throws IOException{
 		for(Factorer f: factorers){
-			PrintWriter print=new PrintWriter(f.getSocket.getOutPutStream());
+			PrintWriter print=new PrintWriter(f.getSocket().getOutputStream());
 			print.print("FACTOR" + big);
 		}
 	}
