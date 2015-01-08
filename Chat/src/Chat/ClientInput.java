@@ -12,7 +12,7 @@ public class ClientInput implements Runnable{
 	private ArrayBlockingQueue<String> incomingMessages;
 	
 	public ClientInput(ArrayBlockingQueue<String> in) throws UnknownHostException, IOException{
-		sock=new Socket("10.5.101.127",80);
+		sock=new Socket("localhost",80);
 		scan=new Scanner(sock.getInputStream());
 		incomingMessages = in;
 	}

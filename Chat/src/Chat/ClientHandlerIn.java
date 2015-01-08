@@ -26,8 +26,9 @@ public class ClientHandlerIn implements Runnable{
 			 read=new Scanner(c.getSocket().getInputStream());
 			 
 			 while(new InputStreamReader(c.getSocket().getInputStream()).ready()){
-				 ServerResources.getInputToOutput().add(c.getHostName()+" " +read.nextLine());
-				
+				 String message = read.nextLine();
+				 ServerResources.getInputToOutput().add(c.getHostName()+" " +message);
+				System.out.println(message);
 			 }
 		}
 	}

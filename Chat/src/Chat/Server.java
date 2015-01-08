@@ -19,7 +19,6 @@ public class Server implements Runnable{
 			handle();
 		
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
