@@ -26,7 +26,7 @@ public class Server implements Runnable{
 	
 	private void handle() throws IOException{
 		
-		Resources.getServerToClientHandler().add(new Client(sock.accept()));
+		ServerResources.getServerToClientHandler().add(new Client(sock.accept()));
 	}
 	
 
