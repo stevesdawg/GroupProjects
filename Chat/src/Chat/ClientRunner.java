@@ -12,7 +12,7 @@ public class ClientRunner {
 		
 		Thread ClientInput=new Thread(new ClientInput(inputMessages));
 		Thread ClientOutPut=new Thread(new ClientOutput(outputMessages));
-		Thread guiThread = new Thread(new ChatFrame());
+		Thread guiThread = new Thread(new ChatFrame(outputMessages, inputMessages));
 		
 		ClientInput.start();
 		ClientOutPut.start();

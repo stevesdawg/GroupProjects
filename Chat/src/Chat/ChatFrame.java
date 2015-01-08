@@ -28,7 +28,7 @@ public class ChatFrame extends JFrame implements Runnable
 	private JPanel outputPanel;
 	private JPanel titlePanel;
 	private JPanel bottomPanel;
-	private final JTextArea output = new JTextArea(10, 42);
+	private final JTextArea output = new JTextArea(8, 42);
 	private final JTextArea users = new JTextArea(1, 40);
 	private final JTextField input = new JTextField(35);
 	private JButton send = new JButton("Send");
