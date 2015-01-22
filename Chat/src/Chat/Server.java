@@ -26,7 +26,11 @@ public class Server implements Runnable{
 	
 	private void handle() throws IOException{
 		
+<<<<<<< HEAD
 		Resources.getServerToClientHandler().add(new Client(sock.accept()));
+=======
+		Resources.getServerToClientHandler().add(sock.accept());
+>>>>>>> branch 'master' of https://github.com/stevesdawg/PersonalProjects.git
 	}
 	
 
