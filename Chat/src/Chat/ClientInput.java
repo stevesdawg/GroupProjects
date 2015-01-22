@@ -4,37 +4,29 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
-import java.util.concurrent.ArrayBlockingQueue;
 
 public class ClientInput implements Runnable{
 	private static Socket sock;
 	private static Scanner scan;
-	private ArrayBlockingQueue<String> incomingMessages;
+	private static final String hostName = "10.0.0.8";
 	
-	public ClientInput(ArrayBlockingQueue<String> in) throws UnknownHostException, IOException{
-		sock=new Socket("localhost",80);
+	public ClientInput() throws UnknownHostException, IOException{
+		sock=new Socket(hostName, 1809);
 		scan=new Scanner(sock.getInputStream());
-		incomingMessages = in;
 	}
 	
 	public void run(){
 		while(true)
-			try {
-				printOut();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+		printOut();
 	}
 	
 	public static Socket getSocket(){
 		return sock;
 	}
 	
-	public void printOut() throws InterruptedException{
+	public void printOut(){
 		while(scan.hasNextLine()){
-			String message = scan.nextLine();
-			System.out.println(message);
-			incomingMessages.put(message);
+			System.out.println(scan.nextLine());
 		}
 	}
 
