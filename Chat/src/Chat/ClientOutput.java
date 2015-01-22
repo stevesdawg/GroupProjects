@@ -17,7 +17,7 @@ public class ClientOutput implements Runnable{
 		out=new PrintWriter(sock.getOutputStream());
 		scan=new Scanner(System.in);
 		this.c = c;
-		out.println(c.getHostName() + " joined.");
+		out.println("$NAMEIS " + c.getHostName());
 		out.flush();
 	}
 	

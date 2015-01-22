@@ -3,6 +3,7 @@ package Chat;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Map;
 
 public class ClientHandlerOut implements Runnable{
 	private static PrintWriter write;
@@ -19,17 +20,19 @@ public class ClientHandlerOut implements Runnable{
 	
 	private void giveOutPut() throws IOException{
 		if(Resources.getInputToOutput().size()!=0){
-			for(Socket c: Resources.getServerToClientHandler()){
+			Map<Socket, String> serverMap = Resources.getServerToClientHandler();
+			for(Map.Entry<Socket, String> entry : serverMap.entrySet()){
 				for(int i=0;i<Resources.getInputToOutput().size();i++){
-					if(true/*!c.getHostName().equals(Resources.getInputToOutput().element().substring(0,c.getHostName().length()))*/){
-						write=new PrintWriter(c.getOutputStream());
+					if(true){
+						write=new PrintWriter(entry.getKey().getOutputStream());
 						write.println((Resources.getInputToOutput().element()));
 						write.flush();
 					}
 				}
 			}
 			
-			Resources.getInputToOutput().poll();
+			String message = Resources.getInputToOutput().poll();
+			System.out.println(message);
 		}
 	}
 }

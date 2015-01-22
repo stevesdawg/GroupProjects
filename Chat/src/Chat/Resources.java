@@ -1,18 +1,19 @@
 package Chat;
 
 import java.net.Socket;
+import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Resources {
-	private static ArrayBlockingQueue<Socket> server=new ArrayBlockingQueue<Socket>(20);
-	private static ArrayBlockingQueue<String> IO=new ArrayBlockingQueue<String>(100);
-	
+	private static Map<Socket, String> server=new ConcurrentHashMap<Socket, String>(20);
+	private static ArrayBlockingQueue<String> IO=new ArrayBlockingQueue<String>(100);	
 	public Resources(){
-		server=new ArrayBlockingQueue<Socket>(20);
+		server=new ConcurrentHashMap<Socket, String>(20);
 		IO=new ArrayBlockingQueue<String>(100);
 	}
 	
-	public static ArrayBlockingQueue<Socket> getServerToClientHandler(){
+	public static Map<Socket, String> getServerToClientHandler(){
 		return server;
 	}
 	
