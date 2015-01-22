@@ -1,11 +1,7 @@
 package Chat;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.Scanner;
 
 
 public class Server implements Runnable{
@@ -30,9 +26,7 @@ public class Server implements Runnable{
 	
 	private void handle() throws IOException{
 		
-		Socket incoming = sock.accept();
-		String name = new Scanner(incoming.getInputStream()).nextLine().substring(8);
-		Resources.getServerToClientHandler().put(incoming, name);
+		Resources.getServerToClientHandler().add(new Client(sock.accept()));
 	}
 	
 

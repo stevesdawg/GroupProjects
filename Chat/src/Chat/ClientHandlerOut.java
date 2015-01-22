@@ -2,8 +2,6 @@ package Chat;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.Socket;
-import java.util.Map;
 
 public class ClientHandlerOut implements Runnable{
 	private static PrintWriter write;
@@ -20,19 +18,17 @@ public class ClientHandlerOut implements Runnable{
 	
 	private void giveOutPut() throws IOException{
 		if(Resources.getInputToOutput().size()!=0){
-			Map<Socket, String> serverMap = Resources.getServerToClientHandler();
-			for(Map.Entry<Socket, String> entry : serverMap.entrySet()){
+			for(Client c: Resources.getServerToClientHandler()){
 				for(int i=0;i<Resources.getInputToOutput().size();i++){
-					if(true){
-						write=new PrintWriter(entry.getKey().getOutputStream());
+					if(!c.getHostName().equals(Resources.getInputToOutput().element().substring(0,c.getHostName().length()))){
+						write=new PrintWriter(c.getSocket().getOutputStream());
 						write.println((Resources.getInputToOutput().element()));
 						write.flush();
 					}
 				}
 			}
 			
-			String message = Resources.getInputToOutput().poll();
-			System.out.println(message);
+			Resources.getInputToOutput().poll();
 		}
 	}
 }
