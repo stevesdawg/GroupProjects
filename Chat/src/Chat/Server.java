@@ -19,13 +19,14 @@ public class Server implements Runnable{
 			handle();
 		
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
 	private void handle() throws IOException{
 		
-		ServerResources.getServerToClientHandler().add(new Client(sock.accept()));
+		Resources.getServerToClientHandler().add(new Client(sock.accept()));
 	}
 	
 

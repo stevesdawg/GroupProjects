@@ -22,13 +22,12 @@ public class ClientHandlerIn implements Runnable{
 	
 	private void checkInput() throws IOException{
 		
-		for(Client c: ServerResources.getServerToClientHandler()){
+		for(Client c: Resources.getServerToClientHandler()){
 			 read=new Scanner(c.getSocket().getInputStream());
 			 
 			 while(new InputStreamReader(c.getSocket().getInputStream()).ready()){
-				 String message = read.nextLine();
-				 ServerResources.getInputToOutput().add(c.getHostName()+" " +message);
-				System.out.println(message);
+				 Resources.getInputToOutput().add(c.getHostName()+" " +read.nextLine());
+				
 			 }
 		}
 	}

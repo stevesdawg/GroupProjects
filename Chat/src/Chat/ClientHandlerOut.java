@@ -11,23 +11,24 @@ public class ClientHandlerOut implements Runnable{
 		try {
 			giveOutPut();
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
 	private void giveOutPut() throws IOException{
-		if(ServerResources.getInputToOutput().size()!=0){
-			for(Client c: ServerResources.getServerToClientHandler()){
-				for(int i=0;i<ServerResources.getInputToOutput().size();i++){
-					if(!c.getHostName().equals(ServerResources.getInputToOutput().element().substring(0,c.getHostName().length()))){
+		if(Resources.getInputToOutput().size()!=0){
+			for(Client c: Resources.getServerToClientHandler()){
+				for(int i=0;i<Resources.getInputToOutput().size();i++){
+					if(!c.getHostName().equals(Resources.getInputToOutput().element().substring(0,c.getHostName().length()))){
 						write=new PrintWriter(c.getSocket().getOutputStream());
-						write.println((ServerResources.getInputToOutput().element()));
+						write.println((Resources.getInputToOutput().element()));
 						write.flush();
 					}
 				}
 			}
 			
-			ServerResources.getInputToOutput().poll();
+			Resources.getInputToOutput().poll();
 		}
 	}
 }
