@@ -1,4 +1,5 @@
-package Chat;
+package clientServer;
+
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -22,43 +23,48 @@ import javax.swing.border.TitledBorder;
 @SuppressWarnings("serial")
 public class ChatFrame extends JFrame implements Runnable
 {
-	private static final int FRAME_WIDTH = 500;
-	private static final int FRAME_HEIGHT = 300;
+	private static final int FRAME_WIDTH = 600;
+	private static final int FRAME_HEIGHT = 400;
 	private JPanel panel;
 	private JPanel outputPanel;
 	private JPanel titlePanel;
 	private JPanel bottomPanel;
-	private final JTextArea output = new JTextArea(8, 42);
-	private final JTextArea users = new JTextArea(1, 40);
-	private final JTextField input = new JTextField(35);
 	private JButton send = new JButton("Send");
-	final DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-	private ArrayBlockingQueue<String> outputMessages;
-	private ArrayBlockingQueue<String> inputMessages;
+	private JButton disconnect = new JButton("Disconnect");
 	
-	public ChatFrame(ArrayBlockingQueue<String> out, ArrayBlockingQueue<String> in)
+	public static JTextArea output = new JTextArea(8, 42);
+	public static JTextArea users = new JTextArea(1, 40);
+	private final JTextField input = new JTextField(35);
+	
+	final DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+	private String userName;
+
+	private ArrayBlockingQueue<String> outgoingMessages;
+	private ArrayBlockingQueue<String> incomingMessages;
+	
+	public ChatFrame(ArrayBlockingQueue<String> out, ArrayBlockingQueue<String> in, String userName)
 	{
 		this.setTitle("Chat Window");
 		this.setSize(FRAME_WIDTH, FRAME_HEIGHT);
-		outputMessages = out;
-		inputMessages = in;
+		outgoingMessages = out;
+		incomingMessages = in;
 		makePanels();
 		makeComponents();
 		listen();
+		this.userName = userName;
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //		this.setVisible(true);
 	}
 	
 	public void run()
 	{
-		ChatFrame frame = new ChatFrame(outputMessages, inputMessages);
+		ChatFrame frame = new ChatFrame(outgoingMessages, incomingMessages, userName);
 		frame.setVisible(true);
 		while(true)
 		{
 			try {
-				System.out.println(readInputMessages());
+				readInputMessages();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -83,9 +89,14 @@ public class ChatFrame extends JFrame implements Runnable
 	
 	private String readInputMessages() throws InterruptedException
 	{
-		String message = inputMessages.take();
-		output.setText(message);
+		String message = incomingMessages.take();
+		output.append(message);
 		return message;
+	}
+	
+	private String messageHeader()
+	{
+		return userName + "(" + dateFormat.format(new Date()) + ")>" + " ";
 	}
 	
 	public void makeComponents()
@@ -99,6 +110,22 @@ public class ChatFrame extends JFrame implements Runnable
 
 		bottomPanel.add(input);
 		bottomPanel.add(send);
+		bottomPanel.add(disconnect);
+	}
+	
+	private void sendMessageToQueue()
+	{
+		if(!"".equals(input.getText()))
+		{
+			String inputMessage = input.getText();
+			try {
+				outgoingMessages.put(messageHeader() + inputMessage);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+//			output.append(messageHeader() + inputMessage + "\n");
+			input.setText("");
+		}
 	}
 	
 	public void listen()
@@ -109,16 +136,7 @@ public class ChatFrame extends JFrame implements Runnable
 			{
 				if (e.getKeyCode() == KeyEvent.VK_ENTER)
 				{
-					if(!"".equals(input.getText()))
-					{
-						try {
-							outputMessages.put("User " + "(" + dateFormat.format(new Date()) + ")>" + " " + input.getText() + "\n");
-						} catch (InterruptedException e1) {
-							e1.printStackTrace();
-						}
-//						output.append("User " + "(" + dateFormat.format(new Date()) + ")>" + " " + input.getText() + "\n");
-						input.setText("");
-					}
+					sendMessageToQueue();
 				}
 			}
 			public void keyReleased(KeyEvent arg0) 
@@ -135,15 +153,19 @@ public class ChatFrame extends JFrame implements Runnable
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-				if(!"".equals(input.getText()))
-				{
-					try {
-						outputMessages.put("User " + "(" + dateFormat.format(new Date()) + ")>" + " " + input.getText() + "\n");
-					} catch (InterruptedException e1) {
-						e1.printStackTrace();
-					}
-					output.append("User " + "(" + dateFormat.format(new Date()) + ")>" + " " + input.getText() + "\n");
-					input.setText("");
+				sendMessageToQueue();
+			}
+		});
+		
+		disconnect.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				try {
+					outgoingMessages.put("#$! " + userName + " DISCONNECTED");
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
 				}
 			}
 		});
