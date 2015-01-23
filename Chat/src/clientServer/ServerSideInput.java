@@ -5,7 +5,7 @@ import java.net.Socket;
 import java.util.Scanner;
 import java.util.concurrent.ArrayBlockingQueue;
 
-public class ServerSideInput extends Thread {
+public class ServerSideInput implements Runnable {
 	
 	private Scanner in;
 	private ArrayBlockingQueue<String> messages;
@@ -16,7 +16,7 @@ public class ServerSideInput extends Thread {
 		this.messages = messagePool;
 	}
 	
-	public void start()
+	public void run()
 	{
 		while(true)
 		{

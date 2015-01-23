@@ -14,13 +14,13 @@ public class Server {
 		ArrayBlockingQueue<String> messagePool = new ArrayBlockingQueue<String>(40);
 		
 		ServerSocket socket = new ServerSocket(1809);
-		new ServerSideOutput(messagePool, sockets).start();
+		new Thread(new ServerSideOutput(messagePool, sockets)).start();
 		while(true)
 		{
 			Socket incomingSocket = socket.accept();
 			System.out.println("Socket connected from: " + incomingSocket.getInetAddress());
 			sockets.add(incomingSocket);
-			new ServerSideInput(incomingSocket, messagePool).start();
+			new Thread(new ServerSideInput(incomingSocket, messagePool)).start();
 		}
 		
 	}

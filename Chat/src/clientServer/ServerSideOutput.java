@@ -6,7 +6,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.concurrent.ArrayBlockingQueue;
 
-public class ServerSideOutput extends Thread {
+public class ServerSideOutput implements Runnable {
 	
 	private ArrayBlockingQueue<String> messagePool;
 	private ArrayList<Socket> sockets;
@@ -17,7 +17,7 @@ public class ServerSideOutput extends Thread {
 		this.sockets = sockets;
 	}
 	
-	public void start()
+	public void run()
 	{
 		try {
 			pushMessagesToAllClients();
