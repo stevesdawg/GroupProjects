@@ -90,7 +90,7 @@ public class ChatClient {
             } else if (line.startsWith("NAMEACCEPTED")) {
                 textField.setEditable(true);
             } else if (line.startsWith("MESSAGE")) {
-                messageArea.append(line.substring(8) + "\n");
+                messageArea.append(line.substring(8 + name.length() + 1) + "\n");
             }
         }
     }
