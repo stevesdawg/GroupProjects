@@ -40,7 +40,7 @@ public class ChatClient {
              * the text area in preparation for the next message.
              */
             public void actionPerformed(ActionEvent e) {
-                out.println(name + " " + textField.getText());
+                out.println(name + ": " + textField.getText());
                 textField.setText("");
             }
         });
