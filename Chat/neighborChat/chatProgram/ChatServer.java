@@ -110,6 +110,7 @@ public class ChatServer {
                     synchronized (names) {
                         if (!names.contains(name)) {
                             names.add(name);
+                            System.out.println(name + " JOINED.");
                             break;
                         }
                     }
@@ -128,6 +129,7 @@ public class ChatServer {
                     if (input == null) {
                         return;
                     }
+                    System.out.println(input);
                     for (PrintWriter writer : writers) {
                         writer.println("MESSAGE " + name + ": " + input);
                     }

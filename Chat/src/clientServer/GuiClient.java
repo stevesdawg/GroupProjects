@@ -14,8 +14,8 @@ public class GuiClient {
 		ArrayBlockingQueue<String> outgoingMessages = new ArrayBlockingQueue<String>(40);
 		ArrayBlockingQueue<String> incomingMessagse = new ArrayBlockingQueue<String>(40);
 		
-		String hostName = "10.0.0.2";
-//		String hostName = JOptionPane.showInputDialog("Enter a hostname (ip address)");
+//		String hostName = "10.0.0.2";
+		String hostName = JOptionPane.showInputDialog("Enter a hostname (ip address)");
 		String userName = JOptionPane.showInputDialog("Enter a screen name");
 		Socket socket = new Socket(hostName, 1809);
 		
